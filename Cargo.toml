@@ -4,6 +4,8 @@ version = "0.1.0"
 authors = ["Björn Westlin <bwestlin@gmail.com>"]
 
 [dependencies]
+regex = "1"
+lazy_static = "1.1"
 
 [[bin]]
 name = "day1"
@@ -12,3 +14,7 @@ path = "src/day1/day1.rs"
 [[bin]]
 name = "day2"
 path = "src/day2/day2.rs"
+
+[[bin]]
+name = "day3"
+path = "src/day3/day3.rs"
