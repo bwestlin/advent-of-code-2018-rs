@@ -113,7 +113,7 @@ fn main() -> Result<(), Box<Error>> {
 }
 
 fn input() -> io::Result<Vec<String>> {
-    let f = File::open("src/day3/input")?;
+    let f = File::open("src/day03/input")?;
     let f = BufReader::new(f);
     Ok(f.lines().map(|l| l.unwrap()).collect())
 }

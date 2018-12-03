@@ -37,7 +37,7 @@ fn main() -> Result<(), Box<Error>> {
 }
 
 fn input() -> io::Result<Vec<i32>> {
-    let f = File::open("src/day1/input")?;
+    let f = File::open("src/day01/input")?;
     let f = BufReader::new(f);
     Ok(f.lines().map(|l| l.unwrap().parse::<i32>().unwrap()).collect())
 }

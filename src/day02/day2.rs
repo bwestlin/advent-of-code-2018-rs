@@ -55,7 +55,7 @@ fn main() -> Result<(), Box<Error>> {
 }
 
 fn input() -> io::Result<Vec<String>> {
-    let f = File::open("src/day2/input")?;
+    let f = File::open("src/day02/input")?;
     let f = BufReader::new(f);
     Ok(f.lines().map(|l| l.unwrap()).collect())
 }
