@@ -108,7 +108,7 @@ fn part1(input: &Vec<String>) -> i32 {
 fn part2(input: &Vec<String>) -> i32 {
     let guard_records = parse_guard_records(input);
 
-    // Calculate total minutes slept per id
+    // Calculate total times slept per minute per id
     let mcnt_by_id = guard_records.iter()
         .fold(HashMap::new(), |mut acc: HashMap<i32, [i32; 64]>, r| {
             {
