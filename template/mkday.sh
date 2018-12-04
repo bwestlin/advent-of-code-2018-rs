@@ -10,3 +10,8 @@ DST="src/day$DAY/day$DAY.rs"
 mkdir -p "src/day$DAY/"
 sed "s/xDAYx/$DAY/g" < template/day.rs > "$DST"
 echo "$DST created"
+
+echo "
+[[bin]]
+name = \"day$DAY\"
+path = \"$DST\"" >> Cargo.toml
