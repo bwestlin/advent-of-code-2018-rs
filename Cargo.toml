@@ -6,6 +6,7 @@ authors = ["Björn Westlin <bwestlin@gmail.com>"]
 [dependencies]
 regex = "1"
 lazy_static = "1.1"
+time = "0.1"
 
 [[bin]]
 name = "day01"
@@ -22,3 +23,7 @@ path = "src/day03/day03.rs"
 [[bin]]
 name = "day04"
 path = "src/day04/day04.rs"
+
+[[bin]]
+name = "day05"
+path = "src/day05/day05.rs"
