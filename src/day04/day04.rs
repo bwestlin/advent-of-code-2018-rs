@@ -83,8 +83,8 @@ fn part1(input: &Vec<String>) -> i32 {
             acc
         })
         .iter()
-        .fold((0, 0), |(lid, lc), (id, c)| {
-            if *c > lc { (*id, *c) } else { (lid, lc) }
+        .fold((0, 0), |(lid, lc), (&id, &c)| {
+            if c > lc { (id, c) } else { (lid, lc) }
         });
 
     // Calculate which minute the given id has been asleep the most
@@ -98,8 +98,8 @@ fn part1(input: &Vec<String>) -> i32 {
         })
         .iter()
         .enumerate()
-        .fold((0 as i32, 0), |(lmin, lc), (min, c)| {
-            if *c > lc { (min as i32, *c) } else { (lmin, lc) }
+        .fold((0 as i32, 0), |(lmin, lc), (min, &c)| {
+            if c > lc { (min as i32, c) } else { (lmin, lc) }
         });
 
     mid * mmin
@@ -122,9 +122,9 @@ fn part2(input: &Vec<String>) -> i32 {
 
     // Calculate which id has been most frequently asleep at a given minute
     let (mid, _, mmin) = mcnt_by_id.iter()
-        .map(|(id, mcnt)| {
+        .map(|(&id, mcnt)| {
             (0..60).into_iter()
-                .fold((*id, 0, 0), |(id, max, midx), i| {
+                .fold((id, 0, 0), |(id, max, midx), i| {
                     if mcnt[i] > max { (id, mcnt[i], i as i32) } else { (id, max, midx) }
                 })
         })
