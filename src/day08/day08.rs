@@ -6,61 +6,49 @@ use std::io::prelude::*;
 use std::fs::File;
 use utils::*;
 
-fn extract_metadata(xs: &[i32]) -> (usize, Vec<i32>) {
-    let n_child = xs[0];
-    let n_metad = xs[1] as usize;
-    let mut c_len = 0;
-    let mut metad: Vec<i32> = vec![];
+pub struct Node {
+    pub children: Vec<Node>,
+    pub metadata: Vec<i32>
+}
 
-    for _ in 0..n_child {
-        let (cl, ref mut cmetad) = extract_metadata(&xs[(2 + c_len)..]);
-        metad.append(cmetad);
-        c_len += cl;
-    }
+fn parse_tree(xs: &[i32]) -> (usize, Node) {
+    let (c_len, children) = (0..xs[0]).into_iter()
+        .fold((0, vec![]), |(cl, mut ch): (usize, Vec<Node>), _| {
+            let (c_len, node) = parse_tree(&xs[(2 + cl)..]);
+            ch.push(node);
+            (cl + c_len, ch)
+        });
+    let m_cnt = xs[1] as usize;
+    let m_idx = 2 + c_len;
+    (2 + c_len + m_cnt, Node { children: children, metadata: xs[m_idx..(m_idx + m_cnt)].to_vec() })
+}
 
-    for mi in 0..n_metad {
-        metad.push(xs[2 + c_len + mi]);
-    }
-
-    (2 + c_len + n_metad, metad)
+fn sum_metadata(node: &Node) -> i32 {
+    (*node).metadata.iter().sum::<i32>() + (*node).children.iter().map(sum_metadata).sum::<i32>()
 }
 
 fn part1(input: &Vec<i32>) -> i32 {
-    let (_, metadata) = extract_metadata(input);
-    metadata.iter().sum()
+    let (_, root) = parse_tree(input);
+    sum_metadata(&root)
 }
 
-fn extract_value(xs: &[i32]) -> (usize, i32) {
-    let n_child = xs[0] as usize;
-    let n_metad = xs[1] as usize;
-    let mut c_len = 0;
-    let mut c_value = vec![0i32; n_child];
-
-    if n_child > 0 {
-        for ci in 0..n_child {
-            let (cl, cv) = extract_value(&xs[(2 + c_len)..]);
-            c_value[ci] = cv;
-            c_len += cl;
-        }
-
-        let ms = 2 + c_len;
-        let value = xs[ms..(ms + n_metad)].iter()
-            .map(|ci| ci - 1)
-            .filter(|&ci| ci >= 0 && ci < c_value.len() as i32)
-            .map(|ci| {
-                c_value[ci as usize]
-            })
-        .sum();
-
-        (2 + c_len + n_metad, value)
+fn sum_value(node: &Node) -> i32 {
+    if (*node).children.len() == 0 {
+        (*node).metadata.iter().sum()
     } else {
-        (2 + c_len + n_metad, xs[2..(2 + n_metad)].iter().sum())
+        (*node).metadata.iter()
+            .map(|ci| (ci - 1) as usize)
+            .filter(|&ci| ci < (*node).children.len())
+            .map(|ci| {
+                sum_value(&(*node).children[ci])
+            })
+            .sum()
     }
 }
 
 fn part2(input: &Vec<i32>) -> i32 {
-    let (_, value) = extract_value(input);
-    value
+    let (_, root) = parse_tree(input);
+    sum_value(&root)
 }
 
 fn main() -> Result<(), Box<Error>> {
