@@ -1,3 +1,5 @@
+extern crate utils;
+
 use std::cmp;
 use std::collections::HashSet;
 use std::str::FromStr;
@@ -6,6 +8,7 @@ use std::num::ParseIntError;
 use std::io::{self, BufReader};
 use std::io::prelude::*;
 use std::fs::File;
+use utils::*;
 
 #[derive(PartialEq, Debug, Clone, Copy)]
 pub struct Coord {
@@ -88,12 +91,16 @@ fn part2(coords: &Vec<Coord>, max_sum: i32) -> i32 {
 }
 
 fn main() -> Result<(), Box<Error>> {
-    let result = part1(&input()?);
-    println!("Part1 result: {}", result);
-
-    let result = part2(&input()?, 10000);
-    println!("Part2 result: {}", result);
-
+    measure_exec(|| {
+        let result = part1(&input()?);
+        println!("Part1 result: {}", result);
+        Ok(())
+    })?;
+    measure_exec(|| {
+        let result = part2(&input()?, 10000);
+        println!("Part2 result: {}", result);
+        Ok(())
+    })?;
     Ok(())
 }
 

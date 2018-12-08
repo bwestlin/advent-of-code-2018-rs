@@ -8,6 +8,10 @@ regex = "1"
 lazy_static = "1.1"
 time = "0.1"
 
+[lib]
+name = "utils"
+path = "src/lib.rs"
+
 [[bin]]
 name = "day01"
 path = "src/day01/day01.rs"

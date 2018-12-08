@@ -1,8 +1,11 @@
+extern crate utils;
+
 use std::collections::HashMap;
 use std::error::Error;
 use std::io::{self, BufReader};
 use std::io::prelude::*;
 use std::fs::File;
+use utils::*;
 
 
 fn part1(box_ids: Vec<String>) -> i32 {
@@ -45,12 +48,16 @@ fn find_differs_by_one(id: String, box_ids: &Vec<String>) -> Option<String> {
 }
 
 fn main() -> Result<(), Box<Error>> {
-    let checksum = part1(input()?);
-    println!("Part1 checksum: {}", checksum);
-
-    let common_letters = part2(&input()?);
-    println!("Part2 common letters: {}", common_letters);
-
+    measure_exec(|| {
+        let checksum = part1(input()?);
+        println!("Part1 checksum: {}", checksum);
+        Ok(())
+    })?;
+    measure_exec(|| {
+        let common_letters = part2(&input()?);
+        println!("Part2 common letters: {}", common_letters);
+        Ok(())
+    })?;
     Ok(())
 }
 

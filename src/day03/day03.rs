@@ -1,5 +1,6 @@
 extern crate regex;
 #[macro_use] extern crate lazy_static;
+extern crate utils;
 
 use std::cmp;
 use std::collections::HashSet;
@@ -10,6 +11,7 @@ use std::io::prelude::*;
 use std::fs::File;
 use std::str::FromStr;
 use regex::Regex;
+use utils::*;
 
 
 #[derive(PartialEq, Debug, Clone, Copy)]
@@ -103,12 +105,16 @@ fn part2(claims: &Vec<Claim>) -> Vec<i32> {
 
 fn main() -> Result<(), Box<Error>> {
     let claims = parse_claims(&input()?)?;
-    let overlapp_sq_inch = part1(&claims);
-    println!("Part1 overlapping square inches: {}", overlapp_sq_inch);
-
-    let non_overlapping_claim = part2(&claims);
-    println!("Part2 non overlapping claim id: {:?}", non_overlapping_claim);
-
+    measure_exec(|| {
+        let overlapp_sq_inch = part1(&claims);
+        println!("Part1 overlapping square inches: {}", overlapp_sq_inch);
+        Ok(())
+    })?;
+    measure_exec(|| {
+        let non_overlapping_claim = part2(&claims);
+        println!("Part2 non overlapping claim id: {:?}", non_overlapping_claim);
+        Ok(())
+    })?;
     Ok(())
 }
 

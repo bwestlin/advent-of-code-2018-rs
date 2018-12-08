@@ -1,8 +1,11 @@
+extern crate utils;
+
 use std::collections::HashSet;
 use std::error::Error;
 use std::io::{self, BufReader};
 use std::io::prelude::*;
 use std::fs::File;
+use utils::*;
 
 
 fn part1(freq_changes: Vec<i32>) -> i32 {
@@ -27,12 +30,16 @@ fn part2(freq_changes: Vec<i32>) -> Option<i32> {
 }
 
 fn main() -> Result<(), Box<Error>> {
-    let res_freq = part1(input()?);
-    println!("Part1 result frequency: {:?}", res_freq);
-
-    let freq_repeat = part2(input()?);
-    println!("Part2 first repeated frequency: {:?}", freq_repeat.unwrap());
-
+    measure_exec(|| {
+        let res_freq = part1(input()?);
+        println!("Part1 result frequency: {:?}", res_freq);
+        Ok(())
+    })?;
+    measure_exec(|| {
+        let freq_repeat = part2(input()?);
+        println!("Part2 first repeated frequency: {:?}", freq_repeat.unwrap());
+        Ok(())
+    })?;
     Ok(())
 }
 

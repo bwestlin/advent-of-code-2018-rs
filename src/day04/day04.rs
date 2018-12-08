@@ -1,5 +1,6 @@
 extern crate regex;
 #[macro_use] extern crate lazy_static;
+extern crate utils;
 
 use std::collections::HashMap;
 use std::error::Error;
@@ -7,6 +8,7 @@ use std::io::{self, BufReader};
 use std::io::prelude::*;
 use std::fs::File;
 use regex::Regex;
+use utils::*;
 
 
 #[derive(PartialEq, Debug, Clone)]
@@ -136,12 +138,16 @@ fn part2(input: &Vec<String>) -> i32 {
 }
 
 fn main() -> Result<(), Box<Error>> {
-    let result = part1(&input()?);
-    println!("Part1 result: {}", result);
-
-    let result = part2(&input()?);
-    println!("Part2 result: {}", result);
-
+    measure_exec(|| {
+        let result = part1(&input()?);
+        println!("Part1 result: {}", result);
+        Ok(())
+    })?;
+    measure_exec(|| {
+        let result = part2(&input()?);
+        println!("Part2 result: {}", result);
+        Ok(())
+    })?;
     Ok(())
 }
 

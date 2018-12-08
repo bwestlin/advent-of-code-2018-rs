@@ -1,4 +1,5 @@
 extern crate time;
+extern crate utils;
 
 use std::collections::BTreeSet;
 use std::collections::BTreeMap;
@@ -7,6 +8,7 @@ use std::io::{self, BufReader};
 use std::io::prelude::*;
 use std::fs::File;
 use time::*;
+use utils::*;
 
 fn opposite_polarity(a: char, b: char) -> bool {
     a.to_ascii_uppercase() == b.to_ascii_uppercase() && a as i32 - b as i32 != 0
@@ -58,16 +60,16 @@ fn part2(polymer: &str) -> i32 {
 }
 
 fn main() -> Result<(), Box<Error>> {
-    let start = precise_time_ns();
-
-    let result = part1(input()?.as_str());
-    println!("Part1 result: {}", result);
-
-    let result = part2(input()?.as_str());
-    println!("Part2 result: {}", result);
-
-    let dur_ns = precise_time_ns() - start;
-    println!("Exec time: {}ms", dur_ns / 1_000_000);
+    measure_exec(|| {
+        let result = part1(input()?.as_str());
+        println!("Part1 result: {}", result);
+        Ok(())
+    })?;
+    measure_exec(|| {
+        let result = part2(input()?.as_str());
+        println!("Part2 result: {}", result);
+        Ok(())
+    })?;
     Ok(())
 }
 
