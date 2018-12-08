@@ -7,7 +7,6 @@ use std::error::Error;
 use std::io::{self, BufReader};
 use std::io::prelude::*;
 use std::fs::File;
-use time::*;
 use utils::*;
 
 fn opposite_polarity(a: char, b: char) -> bool {
