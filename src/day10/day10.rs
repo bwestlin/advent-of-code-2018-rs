@@ -89,7 +89,7 @@ fn find_message_func(input: &Vec<String>) -> (String, i32) {
     let points = parse_points(input);
     let th = tot_height(&points);
 
-    let (rpoints, tsecs) = (1..)
+    (1..)
         .scan((points, th), |(ref mut lpts, ref mut lth): &mut (Vec<Point>, i32), i| {
             let pts: Vec<_> = lpts.iter()
                 .map(|p| Point { pos: Vec2 { x: p.pos.x + p.vel.x, y: p.pos.y + p.vel.y }, vel: p.vel.to_owned() })
@@ -105,9 +105,8 @@ fn find_message_func(input: &Vec<String>) -> (String, i32) {
             }
         })
         .last()
-        .unwrap();
-
-    (gen_message(&rpoints), tsecs)
+        .map(|(rpoints, tsecs)| (gen_message(&rpoints), tsecs))
+        .unwrap()
 }
 
 fn part1(input: &Vec<String>) -> String {
