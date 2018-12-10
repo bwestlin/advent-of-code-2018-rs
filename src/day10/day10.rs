@@ -9,11 +9,13 @@ use std::fs::File;
 use regex::Regex;
 use utils::*;
 
+#[derive(Clone)]
 struct Vec2 {
     x: i32,
     y: i32
 }
 
+#[derive(Clone)]
 struct Point {
     pos: Vec2,
     vel: Vec2
@@ -61,6 +63,7 @@ fn gen_message(points: &Vec<Point>) -> String {
     m.iter().map(|l| { let mut s = l.into_iter().collect::<String>(); s.push('\n'); s }).collect()
 }
 
+// An imperative approach to finding the message
 fn find_message(input: &Vec<String>) -> (String, i32) {
     let mut points = parse_points(input);
     let points = points.as_mut();
@@ -81,13 +84,49 @@ fn find_message(input: &Vec<String>) -> (String, i32) {
     (gen_message(points), nsec)
 }
 
+// A functional approach to finding the message
+fn find_message_func(input: &Vec<String>) -> (String, i32) {
+    let points = parse_points(input);
+    let th = tot_height(&points);
+
+    let (rpoints, tsecs) = (1..)
+        .scan((points, th), |(ref mut lpts, ref mut lth): &mut (Vec<Point>, i32), i| {
+            let pts: Vec<_> = lpts.iter()
+                .map(|p| Point { pos: Vec2 { x: p.pos.x + p.vel.x, y: p.pos.y + p.vel.y }, vel: p.vel.to_owned() })
+                .collect();
+
+            let th = tot_height(&pts);
+            if th > *lth {
+                None
+            } else {
+                *lpts = pts.to_owned();
+                *lth = th;
+                Some((pts, i))
+            }
+        })
+        .last()
+        .unwrap();
+
+    (gen_message(&rpoints), tsecs)
+}
+
 fn part1(input: &Vec<String>) -> String {
     let (message, _) = find_message(input);
     message
 }
 
+fn part1_func(input: &Vec<String>) -> String {
+    let (message, _) = find_message_func(input);
+    message
+}
+
 fn part2(input: &Vec<String>) -> i32 {
     let (_, count) = find_message(input);
+    count
+}
+
+fn part2_func(input: &Vec<String>) -> i32 {
+    let (_, count) = find_message_func(input);
     count
 }
 
@@ -98,8 +137,18 @@ fn main() -> Result<(), Box<Error>> {
         Ok(())
     })?;
     measure_exec(|| {
+        let result = part1_func(&input()?);
+        println!("Part1 func result:\n{}", result);
+        Ok(())
+    })?;
+    measure_exec(|| {
         let result = part2(&input()?);
         println!("Part2 result: {}", result);
+        Ok(())
+    })?;
+    measure_exec(|| {
+        let result = part2_func(&input()?);
+        println!("Part2 func result: {}", result);
         Ok(())
     })?;
     Ok(())
@@ -169,13 +218,32 @@ mod tests {
              #...#..###"
         );
 
-        println!("{}", expected);
-
         assert_eq!(part1(&as_input(INPUT)), expected);
+    }
+
+    #[test]
+    fn test_part1_func() {
+        let expected = as_display(
+            "#...#..###
+             #...#...#.
+             #...#...#.
+             #####...#.
+             #...#...#.
+             #...#...#.
+             #...#...#.
+             #...#..###"
+        );
+
+        assert_eq!(part1_func(&as_input(INPUT)), expected);
     }
 
     #[test]
     fn test_part2() {
         assert_eq!(part2(&as_input(INPUT)), 3);
+    }
+
+    #[test]
+    fn test_part2_func() {
+        assert_eq!(part2_func(&as_input(INPUT)), 3);
     }
 }
