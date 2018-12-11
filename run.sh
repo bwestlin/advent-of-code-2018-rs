@@ -7,4 +7,4 @@ if [ -z "$DAY" ]
     exit 1
 fi
 
-RUST_BACKTRACE=1 cargo run --bin "day$DAY" "${@:2}"
+RUST_BACKTRACE=1 cargo run --bin "day$DAY" --release "${@:2}"

@@ -7,4 +7,4 @@ if [ -z "$DAY" ]
     exit 1
 fi
 
-RUST_BACKTRACE=0 cargo watch -x "test --bin day$DAY -- --nocapture"
+RUST_BACKTRACE=0 cargo watch -x "test --bin day$DAY --release -- --nocapture"
