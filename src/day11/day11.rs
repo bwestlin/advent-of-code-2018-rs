@@ -1,4 +1,3 @@
-extern crate regex;
 extern crate utils;
 
 use std::error::Error;
@@ -36,13 +35,13 @@ fn find_pos_highest_power(ser_no: usize, smin: usize, smax: usize) -> (usize, us
     //             }
     //             if tot_p > ltot_p {
     //                 ltot_p = tot_p;
-    //                 lpos = (x + 1, y + 1, s);
+    //                 lpos = (x + 1, y + 1, s, tot_p);
     //             }
     //         }
     //     }
     // }
 
-    // Optimized implementation
+    // Optimized implementation, ~65x faster than naive
     for y in 0..(N - smin) {
         for x in 0..(N - smin) {
             let mut tot_p = 0;
