@@ -101,7 +101,6 @@ enum Turn {
     Left, Straight, Right
 }
 
-
 #[derive(Debug, Clone)]
 struct Cart {
     pos: (usize, usize),
@@ -156,8 +155,7 @@ impl Cart {
 fn first_chrash_pos(tracks: &Tracks, carts: &Vec<Cart>) -> (usize, usize) {
     (0..)
         .scan((carts.to_vec(), false), |(ref mut carts, ref mut collided), _i| {
-            #[cfg(feature = "print")]
-            {
+            #[cfg(feature = "print")] {
                 println!("Iteration {}:", _i);
                 tracks.print(&carts);
             }
@@ -192,8 +190,7 @@ fn part1(input: &Vec<String>) -> (usize, usize) {
 fn last_remaining_pos(tracks: &Tracks, carts: &Vec<Cart>) -> (usize, usize) {
     (0..)
         .scan(carts.to_vec(), |carts, _i| {
-            #[cfg(feature = "print")]
-            {
+            #[cfg(feature = "print")] {
                 println!("Iteration {}:", _i);
                 tracks.print(&carts);
             }
