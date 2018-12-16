@@ -47,6 +47,7 @@ impl Tracks {
         self.grid[y][x]
     }
 
+    #[cfg(feature = "print")]
     fn print(&self, carts: &Vec<Cart>) {
         for y in 0..self.grid.len() {
             for x in 0..(self.grid[y].len()) {
@@ -109,6 +110,7 @@ struct Cart {
 }
 
 impl Cart {
+    #[cfg(feature = "print")]
     fn as_char(&self) -> char {
         match self.dir {
             Dir::Right => '>',
@@ -153,9 +155,13 @@ impl Cart {
 
 fn first_chrash_pos(tracks: &Tracks, carts: &Vec<Cart>) -> (usize, usize) {
     (0..)
-        .scan((carts.to_vec(), false), |(ref mut carts, ref mut collided), i| {
-            // println!("Iteration {}:", i);
-            // tracks.print(&carts);
+        .scan((carts.to_vec(), false), |(ref mut carts, ref mut collided), _i| {
+            #[cfg(feature = "print")]
+            {
+                println!("Iteration {}:", _i);
+                tracks.print(&carts);
+            }
+
             if *collided {
                 return None
             }
@@ -185,9 +191,12 @@ fn part1(input: &Vec<String>) -> (usize, usize) {
 
 fn last_remaining_pos(tracks: &Tracks, carts: &Vec<Cart>) -> (usize, usize) {
     (0..)
-        .scan(carts.to_vec(), |carts, i| {
-            // println!("Iteration {}:", i);
-            // tracks.print(&carts);
+        .scan(carts.to_vec(), |carts, _i| {
+            #[cfg(feature = "print")]
+            {
+                println!("Iteration {}:", _i);
+                tracks.print(&carts);
+            }
             if carts.len() == 1 {
                 return None
             }
