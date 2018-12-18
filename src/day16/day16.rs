@@ -125,11 +125,7 @@ fn part1(input: &Vec<String>) -> usize {
                 })
                 .count();
 
-            if n_matching >= 3 {
-                acc + 1
-            } else {
-                acc
-            }
+            acc + if n_matching >= 3 { 1 } else { 0 }
         })
 }
 
@@ -166,7 +162,7 @@ fn detect_opcodes(samples: &Vec<Sample>) -> BTreeMap<u32, OpCode> {
     // Find opcode-value to OpCode matches by identifying those not already identified with only one match
     // in the given iteration
     let mut ocs_matches: BTreeMap<u32, OpCode> = BTreeMap::new();
-    while ocs_matches.len() <  15 {
+    while ocs_matches.len() < 15 {
         for i in ocs_hfreq.keys() {
             let freqs = ocs_hfreq.get(i).unwrap();
             let matches: Vec<&OpCode> = freqs.iter().filter(|&oc| !ocs_matches.values().any(|moc| moc == oc)).collect();
