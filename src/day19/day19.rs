@@ -31,7 +31,6 @@ fn parse_input(input: &Vec<String>) -> (usize, Vec<Instruction>) {
             ipb = l.rsplit(' ').next().unwrap().parse::<usize>().unwrap();
         } else if l.trim().len() > 0 {
             instructions.push(get_vals(l));
-
         }
         idx += 1;
     }
@@ -127,6 +126,7 @@ impl Device {
     }
 
     fn exec(&mut self, ins: Instruction) {
+        use OpCode::*;
         let r = &mut self.registers;
         let a = ins.inp_a;
         let ai = a as usize;
@@ -136,22 +136,22 @@ impl Device {
         let ci = c as usize;
         r[self.ib] = self.ip;
         match ins.opc {
-            OpCode::Addr => r[ci] = r[ai] + r[bi],
-            OpCode::Addi => r[ci] = r[ai] + b,
-            OpCode::Mulr => r[ci] = r[ai] * r[bi],
-            OpCode::Muli => r[ci] = r[ai] * b,
-            OpCode::Banr => r[ci] = r[ai] & r[bi],
-            OpCode::Bani => r[ci] = r[ai] & b,
-            OpCode::Borr => r[ci] = r[ai] | r[bi],
-            OpCode::Bori => r[ci] = r[ai] | b,
-            OpCode::Setr => r[ci] = r[ai],
-            OpCode::Seti => r[ci] = a,
-            OpCode::Gtir => r[ci] = if a > r[bi] { 1 } else { 0 },
-            OpCode::Gtri => r[ci] = if r[ai] > b { 1 } else { 0 },
-            OpCode::Gtrr => r[ci] = if r[ai] > r[bi] { 1 } else { 0 },
-            OpCode::Eqir => r[ci] = if a == r[bi] { 1 } else { 0 },
-            OpCode::Eqri => r[ci] = if r[ai] == b { 1 } else { 0 },
-            OpCode::Eqrr => r[ci] = if r[ai] == r[bi] { 1 } else { 0 }
+            Addr => r[ci] = r[ai] + r[bi],
+            Addi => r[ci] = r[ai] + b,
+            Mulr => r[ci] = r[ai] * r[bi],
+            Muli => r[ci] = r[ai] * b,
+            Banr => r[ci] = r[ai] & r[bi],
+            Bani => r[ci] = r[ai] & b,
+            Borr => r[ci] = r[ai] | r[bi],
+            Bori => r[ci] = r[ai] | b,
+            Setr => r[ci] = r[ai],
+            Seti => r[ci] = a,
+            Gtir => r[ci] = if a > r[bi] { 1 } else { 0 },
+            Gtri => r[ci] = if r[ai] > b { 1 } else { 0 },
+            Gtrr => r[ci] = if r[ai] > r[bi] { 1 } else { 0 },
+            Eqir => r[ci] = if a == r[bi] { 1 } else { 0 },
+            Eqri => r[ci] = if r[ai] == b { 1 } else { 0 },
+            Eqrr => r[ci] = if r[ai] == r[bi] { 1 } else { 0 }
         }
         self.ip = r[self.ib] + 1;
     }
@@ -195,6 +195,7 @@ fn part2(input: &Vec<String>) -> u32 {
     d.registers[0] = 1;
 
     d.run_to(1, &instructions);
+
     // Assume value is in register 3 (C)
     sum_divisors(d.registers[2])
 }
