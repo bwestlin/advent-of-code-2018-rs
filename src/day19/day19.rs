@@ -221,7 +221,7 @@ fn input_reimpl(a: u32) -> u32 {
 
     let (mut a, mut b, mut c, mut d, e, mut f) = (a, 0, 0, 0, 0, 0);
 
-    // Setup (starts at adress 17)
+    // Setup (starts at instruction adress 17)
     c += 2;
     c *= c;
     c *= 19;
