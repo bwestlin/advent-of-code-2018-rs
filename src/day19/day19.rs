@@ -221,6 +221,7 @@ fn input_reimpl(a: u32) -> u32 {
 
     let (mut a, mut b, mut c, mut d, e, mut f) = (a, 0, 0, 0, 0, 0);
 
+    // Setup (starts at adress 17)
     c += 2;
     c *= c;
     c *= 19;
@@ -240,6 +241,8 @@ fn input_reimpl(a: u32) -> u32 {
         a = 0;
     }
 
+    // Main iteration (starts at instruction adress 1)
+    // Calculates the sum of all divisors for c
     b = 1;
     d = 1;
     loop {
@@ -259,6 +262,7 @@ fn input_reimpl(a: u32) -> u32 {
     a
 }
 
+// The main iteration in the input can be solved much quicker like this
 fn sum_divisors(n: u32) -> u32 {
     (1..=n).filter(|i| n % i == 0).sum()
 }
