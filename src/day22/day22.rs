@@ -210,8 +210,8 @@ impl CaveSystem {
     #[cfg(feature = "print")]
     fn print(&self) {
         use RegionType::*;
-        for y in 0..self.regions.len() {
-            for x in 0..self.regions[0].len() {
+        for y in 0..self.target.y + 5 {
+            for x in 0..self.target.x + 5 {
                 let mut c = match self.regions[y][x].rtype {
                     Rocky => '.',
                     Wet => '=',
