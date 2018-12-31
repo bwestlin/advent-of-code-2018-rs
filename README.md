@@ -16,3 +16,7 @@ Optionally `print` can be passed as the second argument for debug output.
 ```
 Optionally `print` can be passed as the second argument for debug output here as well.
 
+#### Prerequisites
+
+* Rust installation (tested with v1.31.0), see: https://www.rust-lang.org/tools/install
+* For test script [cargo-watch](https://github.com/passcod/cargo-watch) is used. Just `cargo install cargo-watch` is needed.
